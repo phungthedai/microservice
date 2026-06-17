@@ -4,6 +4,7 @@ package org.example.dtn2509productservice.service.impl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.dtn2509productservice.dto.request.CreateProductRequest;
+import org.example.dtn2509productservice.dto.request.ProductFilter;
 import org.example.dtn2509productservice.dto.response.ProductResponse;
 import org.example.dtn2509productservice.entity.ProductEntity;
 import org.example.dtn2509productservice.exception.ApplicationErrors;
@@ -14,6 +15,7 @@ import org.example.dtn2509productservice.service.IProducts;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -40,5 +42,13 @@ public class ProductService implements IProducts {
     @Override
     public List<ProductResponse> findAll() {
         return productMapper.List(productRepository.findAll());
+    }
+
+    @Override
+    public List<ProductResponse> search(ProductFilter productFilter) {
+        return productRepository.findByIdIn(productFilter.getIds())
+                .stream()
+                .map(productMapper::to)
+                .collect(Collectors.toList());
     }
 }

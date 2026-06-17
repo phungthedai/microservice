@@ -5,5 +5,5 @@ spring:
     url: jdbc:mysql://localhost:3306/dtn2509_products
   jpa:
     show-sql: true
-#server:
-#  port: 8081
+server:
+  port: 8081

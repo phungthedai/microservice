@@ -3,6 +3,7 @@ package org.example.dtn2509productservice.controller;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.dtn2509productservice.dto.request.CreateProductRequest;
+import org.example.dtn2509productservice.dto.request.ProductFilter;
 import org.example.dtn2509productservice.dto.response.ProductResponse;
 import org.example.dtn2509productservice.service.impl.ProductService;
 import org.springframework.http.ResponseEntity;
@@ -29,5 +30,10 @@ public class ProductController {
     @GetMapping("/get-all")
     public ResponseEntity<List<ProductResponse>> getAllProducts() {
         return ResponseEntity.ok(productService.findAll());
+    }
+
+    @PostMapping("/search")
+    public ResponseEntity<List<ProductResponse>> search (@Valid @RequestBody ProductFilter productFilter) {
+        return ResponseEntity.ok(productService.search(productFilter));
     }
 }

@@ -16,14 +16,7 @@ import lombok.Setter;
 public class OrdersCreateItemRequest {
 
     @NotEmpty
-    private String orderId;
-
-    @NotEmpty
     private String productId;
-
-    @NotNull
-    @Positive
-    private Integer price;
 
     @NotNull
     @Positive

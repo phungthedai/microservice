@@ -27,10 +27,10 @@ public class OrderItemService implements IOrdersItem {
 
     @Override
     public OrderItemResponse create(OrdersCreateItemRequest ordersCreateItemRequest) {
-        var order = orderRepository.findById(ordersCreateItemRequest.getOrderId());
-        if (order.isEmpty()) {
-            throw ApplicationErrors.ORDER_NOT_EXISTS();
-        }
+//        var order = orderRepository.findById(ordersCreateItemRequest.getOrderId());
+//        if (order.isEmpty()) {
+//            throw ApplicationErrors.ORDER_NOT_EXISTS();
+//        }
         OrderItemEntity newOrder = orderItemRepository.save(orderItemMapper.create(ordersCreateItemRequest));
         return orderItemMapper.to(newOrder);
     }

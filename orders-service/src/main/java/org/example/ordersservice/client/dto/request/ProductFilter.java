@@ -1,8 +1,6 @@
-package org.example.ordersservice.dto.request;
-
+package org.example.ordersservice.client.dto.request;
 
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,11 +12,8 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class OrdersCreateRequest {
+public class ProductFilter {
 
     @NotEmpty
-    private String customerId;
-
-    @NotEmpty
-    private List<OrdersCreateItemRequest> orderItems;
+    List<String> ids;
 }
