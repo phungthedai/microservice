@@ -14,4 +14,5 @@ public interface OrderItemMapper {
     OrderItemEntity create(CreateOrderItem CreateOrderItem);
     OrderItemResponse to(OrderItemEntity orderItemEntity);
     List<OrderItemResponse> List(List<OrderItemEntity> orderItemEntity);
+    List<OrderItemEntity> toListOrderItem(List<CreateOrderItem> createOrderItem);
 }

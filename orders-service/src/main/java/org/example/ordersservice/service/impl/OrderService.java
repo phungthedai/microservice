@@ -57,9 +57,12 @@ public class OrderService implements IOrders {
                 .sum();
 
          OrderEntity orderEntity = new OrderEntity();
+         orderEntity.setCustomerId(ordersCreateRequest.getCustomerId());
+         orderEntity.setStatus("pending");
          orderEntity.setTotalAmount(totalPrice);
 
          if (orderEntity.getPromotionId() != null) {
+             orderEntity.setPromotionId(orderEntity.getPromotionId());
              PromotionsFindId promotionsFindId = new PromotionsFindId();
              promotionsFindId.setId(orderEntity.getPromotionId());
              PromotionsResponse resPromotion = promotionsClient.findId(promotionsFindId);
@@ -91,9 +94,11 @@ public class OrderService implements IOrders {
              newOrderItemRequest.setQuantity(orderItem.getQuantity());
              orderItemList.add(newOrderItemRequest);
          }
-         orderItemRepository.saveAll(orderItemList);
+         orderItemRepository.saveAll(orderItemMapper.toListOrderItem(orderItemList));
 
-         promotionsClient.incrementUsedCount(orderEntity.getPromotionId());
+        if (orderEntity.getPromotionId() != null) {
+            promotionsClient.incrementUsedCount(orderEntity.getPromotionId());
+        }
 
          return orderMapper.to(newOrder);
     }

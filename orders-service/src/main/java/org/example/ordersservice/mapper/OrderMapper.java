@@ -1,8 +1,10 @@
 package org.example.ordersservice.mapper;
 
+import org.example.ordersservice.dto.request.CreateOrderItem;
 import org.example.ordersservice.dto.request.OrdersCreateRequest;
 import org.example.ordersservice.dto.response.OrderResponse;
 import org.example.ordersservice.entity.OrderEntity;
+import org.example.ordersservice.entity.OrderItemEntity;
 import org.mapstruct.Mapper;
 
 import java.util.List;
