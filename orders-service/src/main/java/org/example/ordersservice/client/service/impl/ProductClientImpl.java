@@ -2,6 +2,7 @@ package org.example.ordersservice.client.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.example.ordersservice.client.dto.request.ProductFilter;
+import org.example.ordersservice.client.dto.request.StockProductRequest;
 import org.example.ordersservice.client.dto.response.ProductResponse;
 import org.example.ordersservice.client.service.IProductClient;
 import org.example.ordersservice.exception.ApplicationException;
@@ -25,6 +26,23 @@ public class ProductClientImpl implements IProductClient {
                 .bodyValue(productFilter)
                 .retrieve()
                 .bodyToMono(new ParameterizedTypeReference<List<ProductResponse>>() {})
+                .block();
+
+        if (responses == null) {
+            throw new ApplicationException(400, 400, "Call product failed");
+        }
+
+        return responses;
+    }
+
+    @Override
+    public Boolean stockProduct(StockProductRequest stockProductRequest) {
+        Boolean responses =  webClientBuilder.build()
+                .put()
+                .uri("http://localhost:8081/v1/products/stock")
+                .bodyValue(stockProductRequest)
+                .retrieve()
+                .bodyToMono(new ParameterizedTypeReference<Boolean>() {})
                 .block();
 
         if (responses == null) {

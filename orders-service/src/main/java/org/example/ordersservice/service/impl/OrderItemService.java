@@ -14,6 +14,7 @@ import org.example.ordersservice.repository.OrderItemRepository;
 import org.example.ordersservice.repository.OrderRepository;
 import org.example.ordersservice.service.IOrdersItem;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -27,6 +28,7 @@ public class OrderItemService implements IOrdersItem {
     private final OrderRepository orderRepository;
 
     @Override
+    @Transactional
     public OrderItemResponse create(CreateOrderItem createOrderItem) {
 //        var order = orderRepository.findById(ordersCreateItemRequest.getOrderId());
 //        if (order.isEmpty()) {
@@ -37,6 +39,7 @@ public class OrderItemService implements IOrdersItem {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<OrderItemResponse> findAll() {
         return orderItemMapper.List(orderItemRepository.findAll());
     }

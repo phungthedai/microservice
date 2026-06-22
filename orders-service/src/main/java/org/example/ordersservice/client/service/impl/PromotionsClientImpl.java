@@ -22,7 +22,7 @@ public class PromotionsClientImpl  implements PromotionsClient {
         try {
             PromotionsResponse promotionsResponse =  webClientBuilder.build()
                     .post()
-                    .uri("http://localhost:8083/v1/search-by-id")
+                    .uri("http://localhost:8083/v1/promotions/search-by-id")
                     .bodyValue(promotionsFindId)
                     .retrieve()
                     .bodyToMono(new ParameterizedTypeReference<PromotionsResponse>() {

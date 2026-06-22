@@ -12,6 +12,7 @@ import org.example.dtn2509productservice.repository.CategoryRepository;
 import org.example.dtn2509productservice.service.ICategory;
 import org.example.dtn2509productservice.service.IProducts;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -24,6 +25,7 @@ public class CategoryService implements ICategory {
     private final CategoryMapper categoryMapper;
 
     @Override
+    @Transactional
     public CategoryResponse create(CreateCategoryRequest createCategoryRequest) {
         if (createCategoryRequest.getParentId() != null) {
             var patentCategory = categoryRepository.findById(createCategoryRequest.getParentId());
@@ -38,6 +40,7 @@ public class CategoryService implements ICategory {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<CategoryResponse> findAll() {
         return categoryMapper.List(categoryRepository.findAll());
     }

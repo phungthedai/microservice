@@ -19,6 +19,8 @@ public class OrdersCreateRequest {
     @NotEmpty
     private String customerId;
 
+    private String promotionId;
+
     @NotEmpty
     private List<OrdersCreateItemRequest> orderItems;
 }

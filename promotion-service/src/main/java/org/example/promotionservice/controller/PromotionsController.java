@@ -3,6 +3,7 @@ package org.example.promotionservice.controller;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.promotionservice.dto.request.PromotionsCreateRequest;
+import org.example.promotionservice.dto.request.PromotionsFindId;
 import org.example.promotionservice.dto.response.PromotionsResponse;
 import org.example.promotionservice.service.PromotionService;
 import org.springframework.http.HttpStatus;
@@ -27,8 +28,8 @@ public class PromotionsController {
     }
 
     @PostMapping("search-by-id")
-    public ResponseEntity<PromotionsResponse> searchById(@RequestBody @Valid String id) {
-        return ResponseEntity.ok(promotionService.searchById(id));
+    public ResponseEntity<PromotionsResponse> searchById(@RequestBody @Valid PromotionsFindId promotionsFindId) {
+        return ResponseEntity.ok(promotionService.searchById(promotionsFindId));
     }
 
     @PostMapping("used-count")
