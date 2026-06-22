@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.Instant;
+import java.util.List;
 
 @Getter
 @Setter
@@ -24,4 +25,5 @@ public class OrderResponse {
     private Instant lastModifiedDate;
     private String lastModifiedBy;
     private String promotionId;
+    private List<OrderItemResponse> orderItemList;
 }

@@ -33,7 +33,7 @@ public class PromotionsController {
     }
 
     @PostMapping("used-count")
-    public Integer incrementUsedCount(String id) {
-        return promotionService.incrementUsedCount(id);
+    public ResponseEntity<Integer> incrementUsedCount(String id) {
+        return ResponseEntity.ok(promotionService.incrementUsedCount(id));
     }
 }

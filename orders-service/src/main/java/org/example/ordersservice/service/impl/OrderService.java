@@ -91,6 +91,9 @@ public class OrderService implements IOrders {
              newOrderItemRequest.setProductId(orderItem.getProductId());
              newOrderItemRequest.setPrice(productResponse.getPrice());
              newOrderItemRequest.setQuantity(orderItem.getQuantity());
+             newOrderItemRequest.setOrder(newOrder);
+             newOrderItemRequest.setIsDeleted(false);
+
              totalAmount +=  orderItem.getQuantity() * productResponse.getPrice();
              orderItemList.add(newOrderItemRequest);
          }
@@ -99,36 +102,38 @@ public class OrderService implements IOrders {
             PromotionsFindId promotionsFindId = new PromotionsFindId();
             promotionsFindId.setId(orderEntity.getPromotionId());
             PromotionsResponse resPromotion = promotionsClient.findId(promotionsFindId);
-            if (resPromotion == null || resPromotion.getIsActive()) {
+            if (resPromotion == null || !resPromotion.getIsActive()) {
                 throw ApplicationErrors.PROMOTION_NOT_EXISTS();
             }
             if (resPromotion.getEndAt().isBefore(Instant.now())  ) {
                 throw ApplicationErrors.PROMOTION_Expired();
             }
-            if (resPromotion.getStartAt().isBefore(Instant.now())) {
+            if (resPromotion.getStartAt().isAfter(Instant.now())) {
                 throw ApplicationErrors.PROMOTION_UNISSUED();
             }
             if (resPromotion.getMinOrderAmount().compareTo(BigDecimal.valueOf(totalAmount)) > 0) {
                 throw ApplicationErrors.INELIGIBLE_TOTAL_AMOUNT();
             }
-            if (resPromotion.getUsageLimit() > resPromotion.getUsedCount()) {
+            if (resPromotion.getUsageLimit() < resPromotion.getUsedCount()) {
                 throw ApplicationErrors.USER_LIMIT_EXCEEDED();
             }
 
-            if(resPromotion.getDiscountType() == DiscountType.FIXED_AMOUNT.name()) {
+            if(DiscountType.FIXED.name().equals(resPromotion.getDiscountType())) {
                 totalAmount -= resPromotion.getDiscountValue().intValue();
             } else {
-                totalAmount -= (totalAmount * (resPromotion.getDiscountValue().intValue() / 100));
+                totalAmount -= (int) (totalAmount * (resPromotion.getDiscountValue().doubleValue() / 100.0));
             }
 
             promotionsClient.incrementUsedCount(orderEntity.getPromotionId());
         }
 
          newOrder.setTotalAmount(totalAmount);
-         orderRepository.save(orderEntity);
-         orderItemRepository.saveAll(orderItemList);
+         newOrder.setIsDeleted(false);
+         newOrder.setOrderItemList(orderItemList);
+         OrderEntity order = orderRepository.save(newOrder);
+//         orderItemRepository.saveAll(orderItemList);
          productClient.stockProduct(new StockProductRequest(listStockProductItemRequest));
-         return orderMapper.to(newOrder);
+         return orderMapper.to(order);
     }
 
 

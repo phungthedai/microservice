@@ -15,8 +15,8 @@ import java.time.Instant;
 public class OrderItemResponse {
 
     private String id;
-    private String order_id;
-    private String product_id;
+    private String orderId;
+    private String productId;
     private Integer price;
     private Integer quantity;
     private Boolean isDeleted;

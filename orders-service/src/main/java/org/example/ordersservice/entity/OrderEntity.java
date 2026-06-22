@@ -3,6 +3,9 @@ package org.example.ordersservice.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.example.ordersservice.dto.response.OrderItemResponse;
+
+import java.util.List;
 
 @Entity
 @Getter
@@ -24,4 +27,7 @@ public class OrderEntity extends BaseEntity {
 
     @Column(name = "promotion_id")
     private String promotionId;
+
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<OrderItemEntity> orderItemList;
 }

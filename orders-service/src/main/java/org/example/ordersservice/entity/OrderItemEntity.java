@@ -14,7 +14,7 @@ public class OrderItemEntity extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
-    @Column(name = "order_id")
+    @Column(name = "order_id", insertable = false, updatable = false)
     private String orderId;
 
     @Column(name = "product_id")
@@ -25,4 +25,8 @@ public class OrderItemEntity extends BaseEntity {
 
     @Column(name = "quantity")
     private Integer quantity;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "order_id")
+    private OrderEntity order;
 }
