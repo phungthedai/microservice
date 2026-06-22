@@ -3,6 +3,7 @@ package org.example.ordersservice.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.example.ordersservice.dto.request.CreateOrderItem;
 import org.example.ordersservice.dto.request.OrdersCreateItemRequest;
 import org.example.ordersservice.dto.response.OrderItemResponse;
 import org.example.ordersservice.entity.OrderItemEntity;
@@ -26,12 +27,12 @@ public class OrderItemService implements IOrdersItem {
     private final OrderRepository orderRepository;
 
     @Override
-    public OrderItemResponse create(OrdersCreateItemRequest ordersCreateItemRequest) {
+    public OrderItemResponse create(CreateOrderItem createOrderItem) {
 //        var order = orderRepository.findById(ordersCreateItemRequest.getOrderId());
 //        if (order.isEmpty()) {
 //            throw ApplicationErrors.ORDER_NOT_EXISTS();
 //        }
-        OrderItemEntity newOrder = orderItemRepository.save(orderItemMapper.create(ordersCreateItemRequest));
+        OrderItemEntity newOrder = orderItemRepository.save(orderItemMapper.create(createOrderItem));
         return orderItemMapper.to(newOrder);
     }
 

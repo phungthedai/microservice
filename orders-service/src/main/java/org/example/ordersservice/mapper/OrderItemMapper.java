@@ -1,5 +1,6 @@
 package org.example.ordersservice.mapper;
 
+import org.example.ordersservice.dto.request.CreateOrderItem;
 import org.example.ordersservice.dto.request.OrdersCreateItemRequest;
 import org.example.ordersservice.dto.response.OrderItemResponse;
 import org.example.ordersservice.entity.OrderItemEntity;
@@ -10,7 +11,7 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface OrderItemMapper {
-    OrderItemEntity create(OrdersCreateItemRequest ordersCreateItemRequest);
+    OrderItemEntity create(CreateOrderItem CreateOrderItem);
     OrderItemResponse to(OrderItemEntity orderItemEntity);
     List<OrderItemResponse> List(List<OrderItemEntity> orderItemEntity);
 }

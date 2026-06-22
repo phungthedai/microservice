@@ -2,6 +2,7 @@ package org.example.ordersservice.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.example.ordersservice.dto.request.CreateOrderItem;
 import org.example.ordersservice.dto.request.OrdersCreateItemRequest;
 import org.example.ordersservice.dto.request.OrdersCreateRequest;
 import org.example.ordersservice.dto.response.OrderItemResponse;
@@ -19,15 +20,15 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("orders-item")
+@RequestMapping("v1/orders-item")
 public class OrderItemController {
 
     private final OrderItemService orderItemService;
 
 
     @PostMapping
-    public ResponseEntity<OrderItemResponse> createCategory(@Valid @RequestBody OrdersCreateItemRequest ordersCreateItemRequest) {
-        return ResponseEntity.ok(orderItemService.create(ordersCreateItemRequest));
+    public ResponseEntity<OrderItemResponse> createCategory(@Valid @RequestBody CreateOrderItem createOrderItem) {
+        return ResponseEntity.ok(orderItemService.create(createOrderItem));
     }
 
     @GetMapping("get-all")

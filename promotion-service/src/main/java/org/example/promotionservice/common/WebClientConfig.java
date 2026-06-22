@@ -1,4 +1,4 @@
-package org.example.ordersservice.common;
+package org.example.promotionservice.common;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

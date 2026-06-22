@@ -21,4 +21,7 @@ public class OrderEntity extends BaseEntity {
 
     @Column(name = "total_amount")
     private Integer totalAmount;
+
+    @Column(name = "promotion_id")
+    private String promotionId;
 }

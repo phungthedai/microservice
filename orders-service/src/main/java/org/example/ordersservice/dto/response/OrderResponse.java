@@ -23,4 +23,5 @@ public class OrderResponse {
     private String createdBy;
     private Instant lastModifiedDate;
     private String lastModifiedBy;
+    private String promotionId;
 }

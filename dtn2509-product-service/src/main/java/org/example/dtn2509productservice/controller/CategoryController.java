@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.dtn2509productservice.dto.request.CreateCategoryRequest;
 import org.example.dtn2509productservice.dto.response.CategoryResponse;
+import org.example.dtn2509productservice.service.ICategory;
 import org.example.dtn2509productservice.service.impl.CategoryService;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
@@ -17,19 +18,19 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("category")
+@RequestMapping("v1/category")
 public class CategoryController {
 
-    private final CategoryService categoryService;
+    private final ICategory iCategory;
 
 
     @PostMapping
     public ResponseEntity<CategoryResponse> createCategory(@Valid @RequestBody CreateCategoryRequest createCategoryRequest) {
-        return ResponseEntity.ok(categoryService.create(createCategoryRequest));
+        return ResponseEntity.ok(iCategory.create(createCategoryRequest));
     }
 
     @GetMapping("get-all")
     public ResponseEntity<List<CategoryResponse>> getAll() {
-        return ResponseEntity.ok(categoryService.findAll());
+        return ResponseEntity.ok(iCategory.findAll());
     }
 }

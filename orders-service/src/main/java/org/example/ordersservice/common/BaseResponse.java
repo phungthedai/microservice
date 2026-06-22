@@ -32,6 +32,9 @@ public class BaseResponse<T> {
         this.data = data;
         this.message = message;
     }
+    public BaseResponse(T data) {
+        this.data = data;
+    }
     public BaseResponse(String message) {
         this.message = message;
     }
