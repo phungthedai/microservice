@@ -5,5 +5,14 @@ spring:
     url: jdbc:mysql://localhost:3306/dtn2509_orders
   jpa:
     show-sql: true
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        request.timeout.ms: 15000
+        linger.ms: 0
+        acks: all
 server:
   port: 8082

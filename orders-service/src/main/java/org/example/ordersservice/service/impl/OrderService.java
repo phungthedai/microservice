@@ -3,10 +3,7 @@ package org.example.ordersservice.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.example.ordersservice.client.dto.request.ProductFilter;
-import org.example.ordersservice.client.dto.request.PromotionsFindId;
-import org.example.ordersservice.client.dto.request.StockProductItemRequest;
-import org.example.ordersservice.client.dto.request.StockProductRequest;
+import org.example.ordersservice.client.dto.request.*;
 import org.example.ordersservice.client.dto.response.ProductResponse;
 import org.example.ordersservice.client.dto.response.PromotionsResponse;
 import org.example.ordersservice.client.service.PromotionsClient;
@@ -19,6 +16,7 @@ import org.example.ordersservice.dto.request.OrdersCreateRequest;
 import org.example.ordersservice.dto.response.OrderResponse;
 import org.example.ordersservice.entity.OrderEntity;
 import org.example.ordersservice.entity.OrderItemEntity;
+import org.example.ordersservice.events.OrderCreateEvent;
 import org.example.ordersservice.exception.ApplicationErrors;
 import org.example.ordersservice.exception.ApplicationException;
 import org.example.ordersservice.mapper.OrderItemMapper;
@@ -27,6 +25,7 @@ import org.example.ordersservice.repository.OrderItemRepository;
 import org.example.ordersservice.repository.OrderRepository;
 import org.example.ordersservice.service.IOrders;
 import org.example.ordersservice.service.IOrdersItem;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,12 +39,10 @@ import java.util.*;
 public class OrderService implements IOrders {
 
     private final OrderRepository orderRepository;
-    private final OrderItemRepository orderItemRepository;
     private final OrderMapper orderMapper;
     private final ProductClientImpl productClient;
     private final PromotionsClient promotionsClient;
-    private final IOrdersItem ordersItem;
-    private final OrderItemMapper orderItemMapper;
+    private final KafkaTemplate<String, Object> kafkaTemplate;
 
     @Override
     @Transactional
@@ -124,15 +121,23 @@ public class OrderService implements IOrders {
                 totalAmount -= (int) (totalAmount * (resPromotion.getDiscountValue().doubleValue() / 100.0));
             }
 
-            promotionsClient.incrementUsedCount(orderEntity.getPromotionId());
+//            promotionsClient.incrementUsedCount(orderEntity.getPromotionId());
+            kafkaTemplate.send("increment_use_count", new PromotionRequestKafka(orderEntity.getPromotionId()));
         }
 
          newOrder.setTotalAmount(totalAmount);
          newOrder.setIsDeleted(false);
          newOrder.setOrderItemList(orderItemList);
          OrderEntity order = orderRepository.save(newOrder);
+
+
 //         orderItemRepository.saveAll(orderItemList);
-         productClient.stockProduct(new StockProductRequest(listStockProductItemRequest));
+//         productClient.stockProduct(new StockProductRequest(listStockProductItemRequest));
+
+
+         OrderCreateEvent orderCreateEvent = orderMapper.toEvent(order);
+         orderCreateEvent.setOrderItemList(orderItemList);
+         kafkaTemplate.send("order_create",  orderCreateEvent);
          return orderMapper.to(order);
     }
 

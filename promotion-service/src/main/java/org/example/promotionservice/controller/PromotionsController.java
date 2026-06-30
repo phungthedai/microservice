@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -32,8 +33,8 @@ public class PromotionsController {
         return ResponseEntity.ok(promotionService.searchById(promotionsFindId));
     }
 
-    @PostMapping("used-count")
-    public ResponseEntity<Integer> incrementUsedCount(String id) {
+    @PutMapping("used-count")
+    public ResponseEntity<Integer> incrementUsedCount(@RequestBody String id) {
         return ResponseEntity.ok(promotionService.incrementUsedCount(id));
     }
 }

@@ -9,9 +9,4 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 public interface PromotionRepository extends JpaRepository<PromotionsEntity, String> {
-    @Modifying
-    @Transactional
-    @Query("UPDATE PromotionsEntity p SET p.usedCount = p.usedCount + 1 " +
-            "WHERE p.id = :id")
-    Integer incrementUsedCount(@Param("id") String id);
 }

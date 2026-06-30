@@ -8,6 +8,7 @@ import org.example.promotionservice.dto.request.PromotionsFindId;
 import org.example.promotionservice.dto.response.PromotionsResponse;
 import org.example.promotionservice.entity.PromotionsEntity;
 import org.example.promotionservice.exception.ApplicationErrors;
+import org.example.promotionservice.exception.ApplicationException;
 import org.example.promotionservice.mapper.PromotionMapper;
 import org.example.promotionservice.repository.PromotionRepository;
 import org.example.promotionservice.service.PromotionService;
@@ -49,10 +50,26 @@ public class PromotionServiceImpl implements PromotionService {
         return promotionMapper.to(promotionRepository.findById(findId.getId()).get());
     }
 
+
+
     @Override
     @Transactional
     public Integer incrementUsedCount(String id) {
-        return promotionRepository.incrementUsedCount(id);
+//        Optional<PromotionsEntity> promotion = promotionRepository.findById(id);
+//        if (promotion.isEmpty()) {
+//            throw ApplicationErrors.PROMOTIONS_EXISTS();
+//        }
+//        promotion.get().setUsedCount(promotion.get().getUsedCount() + 1);
+//        PromotionsEntity newPromotion = promotionRepository.save(promotion.get());
+//        return newPromotion.getUsedCount();
+
+        log.info("incrementUsedCount");
+        throw new ApplicationException("mock");
+
+//        PromotionsEntity promotion = promotionRepository.findById(id)
+//                .orElseThrow(() -> ApplicationErrors.PROMOTIONS_EXISTS());
+//        promotion.setUsedCount(promotion.getUsedCount() + 1);
+//        return promotion.getUsedCount();
     }
 
 }

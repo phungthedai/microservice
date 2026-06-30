@@ -1,7 +1,6 @@
 package org.example.ordersservice.client.service.impl;
 
 import lombok.RequiredArgsConstructor;
-import org.example.ordersservice.client.dto.request.ProductFilter;
 import org.example.ordersservice.client.dto.request.PromotionsFindId;
 import org.example.ordersservice.client.dto.response.PromotionsResponse;
 import org.example.ordersservice.client.service.PromotionsClient;
@@ -9,8 +8,6 @@ import org.example.ordersservice.exception.ApplicationException;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -39,10 +36,10 @@ public class PromotionsClientImpl  implements PromotionsClient {
     }
 
     @Override
-    public Integer incrementUsedCount(String promotionsId) {
+    public void incrementUsedCount(String promotionsId) {
         try {
-            return webClientBuilder.build()
-                    .post()
+            webClientBuilder.build()
+                    .put()
                     .uri("http://localhost:8083/v1/promotions/used-count")
                     .bodyValue(promotionsId)
                     .retrieve()

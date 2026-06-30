@@ -22,7 +22,7 @@ public class ProductClientImpl implements IProductClient {
     public List<ProductResponse> search(ProductFilter productFilter) {
         List<ProductResponse> responses =  webClientBuilder.build()
                 .post()
-                .uri("http://localhost:8081/v1/products/search")
+                .uri("http://localhost:8089/v1/products/search")
                 .bodyValue(productFilter)
                 .retrieve()
                 .bodyToMono(new ParameterizedTypeReference<List<ProductResponse>>() {})
